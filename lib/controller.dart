@@ -438,37 +438,37 @@ class CalendarController {
   }
 
   //切换到下一年
-  void moveToNextYear(
+  DateTime moveToNextYear(
       {bool needAnimation = false,
-      Duration duration = const Duration(milliseconds: 500),
+      Duration duration = const Duration(milliseconds: 300),
       Curve curve = Curves.ease}) {
-    DateTime targetDateTime = monthList[calendarProvider
-                .calendarConfiguration.monthController?.page
-                ?.toInt() ??
-            0 + 12]
-        .getDateTime();
+    final config = calendarProvider.calendarConfiguration;
+    DateTime now = DateTime.now();
+    DateTime currentDateTime = DateTime(config.nowYear,config.nowMonth,config.nowDay ?? now.day);
+    DateTime targetDateTime = currentDateTime.add(Duration(days: 365));
     moveToCalendar(
         targetDateTime.year, targetDateTime.month, targetDateTime.day,
         needAnimation: needAnimation, duration: duration, curve: curve);
+    return targetDateTime;
   }
 
   //切换到上一年
-  void moveToPreviousYear(
+  DateTime moveToPreviousYear(
       {bool needAnimation = false,
       Duration duration = const Duration(milliseconds: 500),
       Curve curve = Curves.ease}) {
-    DateTime targetDateTime = monthList[calendarProvider
-                .calendarConfiguration.monthController?.page
-                ?.toInt() ??
-            0 - 12]
-        .getDateTime();
+    final config = calendarProvider.calendarConfiguration;
+    DateTime now = DateTime.now();
+    DateTime currentDateTime = DateTime(config.nowYear,config.nowMonth,config.nowDay ?? now.day);
+    DateTime targetDateTime = currentDateTime.add(Duration(days: -365));
     moveToCalendar(
         targetDateTime.year, targetDateTime.month, targetDateTime.day,
         needAnimation: needAnimation, duration: duration, curve: curve);
+    return targetDateTime;
   }
 
   //切换到下一个月份,
-  void moveToNextMonth(
+  DateTime? moveToNextMonth(
       {bool needAnimation = false,
       Duration duration = const Duration(milliseconds: 500),
       Curve curve = Curves.ease}) {
@@ -489,28 +489,21 @@ class CalendarController {
           break;
         }
       }
-      return;
+      return null;
     }
 
-    if ((calendarProvider.calendarConfiguration.monthController?.page
-                ?.toInt() ??
-            0 + 1) >=
-        monthList.length) {
-      LogUtil.log(TAG: this.runtimeType, message: "moveToNextMonth：当前是最后一个月份");
-      return;
-    }
-    DateTime targetDateTime = monthList[calendarProvider
-                .calendarConfiguration.monthController?.page
-                ?.toInt() ??
-            0 + 1]
-        .getDateTime();
+    final config = calendarProvider.calendarConfiguration;
+    DateTime now = DateTime.now();
+    DateTime currentDateTime = DateTime(config.nowYear,config.nowMonth,config.nowDay ?? now.day);
+    DateTime targetDateTime = currentDateTime.add(Duration(days: 30));
     moveToCalendar(
         targetDateTime.year, targetDateTime.month, targetDateTime.day,
         needAnimation: needAnimation, duration: duration, curve: curve);
+    return targetDateTime;
   }
 
   //切换到上一个月份
-  void moveToPreviousMonth(
+  DateTime? moveToPreviousMonth(
       {bool needAnimation = false,
       Duration duration = const Duration(milliseconds: 500),
       Curve curve = Curves.ease}) {
@@ -530,25 +523,17 @@ class CalendarController {
           break;
         }
       }
-      return;
+      return null;
     }
 
-    if ((calendarProvider.calendarConfiguration.monthController?.page
-                ?.toInt() ??
-            0) ==
-        0) {
-      LogUtil.log(
-          TAG: this.runtimeType, message: "moveToPreviousMonth：当前是第一个月份");
-      return;
-    }
-    DateTime targetDateTime = monthList[calendarProvider
-                .calendarConfiguration.monthController?.page
-                ?.toInt() ??
-            0 - 1]
-        .getDateTime();
+    final config = calendarProvider.calendarConfiguration;
+    DateTime now = DateTime.now();
+    DateTime currentDateTime = DateTime(config.nowYear,config.nowMonth,config.nowDay ?? now.day);
+    DateTime targetDateTime = currentDateTime.add(Duration(days: -30));
     moveToCalendar(
         targetDateTime.year, targetDateTime.month, targetDateTime.day,
         needAnimation: needAnimation, duration: duration, curve: curve);
+    return targetDateTime;
   }
 
   // 获取当前的月份

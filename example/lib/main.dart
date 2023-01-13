@@ -41,7 +41,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late CalendarController controller;
   late CalendarViewWidget calendar;
-  HashSet<DateTime> _selectedDate = new HashSet();
+  final HashSet<DateTime> _selectedDate = HashSet();
   HashSet<DateModel> _selectedModels = new HashSet();
 
   GlobalKey<CalendarContainerState> _globalKey = new GlobalKey();
@@ -217,6 +217,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   setState(() {
                     controller.calendarConfiguration.selectMode =
                         CalendarSelectedMode.mutltiStartToEndSelect;
+                  });
+                },
+              ),
+              ElevatedButton(
+                child: const Text(
+                  '下一月',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  setState(() {
+                    // controller.moveToNextYear();
+                    controller.monthController.jumpToPage(130);
                   });
                 },
               ),

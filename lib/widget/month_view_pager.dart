@@ -83,11 +83,10 @@ class _MonthViewPagerState extends State<MonthViewPager>
           temp.month = configuration.monthList[position].month;
           temp.day = configuration.monthList[position].day + 14; // 默认月中
           // 如果设置了 默认选择的时间 就取默认选择的时间天数，否则为当前时间
-          DateModel? currentModel = calendarProvider.selectDateModel ?? calendarProvider.selectedDateList?.toList()[0];
+          DateModel? currentModel = calendarProvider.selectDateModel ?? calendarProvider.selectedDateList?.toList().first;
           if(currentModel != null && temp.month == currentModel.month){
             temp.day = currentModel.day;
           }
-          print('85 周视图的变化: $temp');
           calendarProvider.lastClickDateModel = temp;
         }
       },

@@ -17,7 +17,7 @@ class LogUtil {
    */
   static void log({required dynamic TAG, String message = ""}) {
     if (_enableLog && kDebugMode) {
-      debugPrint("flutter_custom_calendar------$TAG------>$message");
+      // debugPrint("flutter_custom_calendar------$TAG------>$message");
     }
   }
 }
